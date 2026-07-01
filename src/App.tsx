@@ -144,25 +144,17 @@ function App() {
   return (
     <main className="app-shell">
       <section className="hero-card">
-        <p className="eyebrow">Reto del Primer Gol</p>
+        <div className="hero-top">
+          <p className="eyebrow">Reto del Primer Gol</p>
+          <span className="live-badge">Quiniela activa</span>
+        </div>
 
         <h1>Quiniela México</h1>
 
         <p className="hero-text">
-          Adivina en qué minuto cae el primer gol de México y registra tu participación.
+          Predice el minuto exacto del primer gol de México, registra tu participación
+          y compite en el tablero público.
         </p>
-
-        <div className="status-grid">
-          <article>
-            <span>Modo API</span>
-            <strong>{frontendEnv.apiMode}</strong>
-          </article>
-
-          <article>
-            <span>Backend URL</span>
-            <strong>{frontendEnv.apiUrl}</strong>
-          </article>
-        </div>
 
         {matchStatus === 'loading' && (
           <p className="note">Cargando configuración del partido...</p>
@@ -177,20 +169,21 @@ function App() {
         {matchStatus === 'success' && match && (
           <>
             <section className="match-panel">
-              <div>
-                <span className="section-label">Partido</span>
-                <h2>{match.matchName}</h2>
-                <p>
-                  Equipo objetivo: <strong>{match.targetTeam}</strong>
-                </p>
-              </div>
+              <div className="match-heading">
+                <div>
+                  <span className="section-label">Partido destacado</span>
+                  <h2>{match.matchName}</h2>
+                  <p>
+                    El reto es adivinar el primer gol de <strong>{match.targetTeam}</strong>.
+                  </p>
+                </div>
 
-              <div className="pill-row">
-                {match.allowedAmounts.map((amount) => (
-                  <span className="pill" key={amount}>
-                    ${amount}
-                  </span>
-                ))}
+                <div className="amount-box">
+                  <span>Entrada</span>
+                  <strong>
+                    {match.allowedAmounts.map((amount) => `$${amount}`).join(' / ')}
+                  </strong>
+                </div>
               </div>
 
               <div className="period-grid">
@@ -208,7 +201,7 @@ function App() {
             <section className="auth-panel">
               {user ? (
                 <div className="session-card">
-                  <span className="section-label">Participante</span>
+                  <span className="section-label">Participante activo</span>
                   <h3>{user.name}</h3>
                   <p>{user.email}</p>
 
@@ -334,6 +327,12 @@ function App() {
                   </article>
                 ))}
               </div>
+            </section>
+
+            <section className="tech-strip">
+              <span>Demo técnica</span>
+              <strong>{frontendEnv.apiMode}</strong>
+              <span>{frontendEnv.apiUrl}</span>
             </section>
           </>
         )}
